@@ -630,7 +630,7 @@ jobs:
           </head>
           <body>
               <div class="container">
-                  <h1>Arilab0nchi ログ一覧</h1>
+                  <h1>Ikim0nchi ログ一覧</h1>
                   <input type="text" id="searchInput" class="search-box" placeholder="🔍 記事のタイトルや本文をキーワード検索..." onkeyup="filterArticles()">
           """
 
