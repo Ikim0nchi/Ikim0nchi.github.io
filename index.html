@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arilab0nchi</title>
+    <style>
+        body { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; background-color: #fcfcfc; color: #333; }
+        .container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { border-bottom: 2px solid #eaeaea; padding-bottom: 12px; margin-top: 0; color: #111; }
+        .search-box { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 15px; box-sizing: border-box; }
+        .tag-container { margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag-badge { background: #eef2f5; color: #333; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; cursor: pointer; border: 1px solid #d0d7de; transition: background 0.2s; user-select: none; }
+        .tag-badge:hover, .tag-badge.active { background: #0969da; color: #fff; border-color: #0969da; }
+        ul { padding-left: 20px; list-style: none; }
+        li { margin: 12px 0; }
+        a { color: #0066cc; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+        .path { font-size: 0.85em; color: #666; margin-left: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ikim0nchi ログ一覧</h1>
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 記事のタイトルや本文をキーワード検索..." onkeyup="filterArticles()">
+        <div class="tag-container">
+            <span class="tag-badge active" id="tag-all" onclick="filterByTag('ALL')">すべて</span>
+            <span class="tag-badge" data-tag="ハチ目" onclick="filterByTag('ハチ目')">#ハチ目</span>
+        </div>
+        <ul id="articleList">
+        <li class="article-item" data-tags="ハチ目" data-content="うちのありんこ ２０２１ねん４がつ のまき — arinkolabo うちのありんこ ２０２１ねん４がつ のまき — arinkolabo ← ログ一覧に戻る うちのありんこ ２０２１ねん４がつ のまき #ハチ目 Camponotus quadrinotatus あかちゃんを はこんでいます あかちゃんが たくさんうまれています いつもの こばえが おらず がいとうの したにいた がを とってきて ありたちに あげました いつものはたらきものが たべにきました しょっかくから たべています いつもはたらいている ありじゃなく いつもはたらいていない ひとまわり おおきなありが すあなのいりぐちを ふさごうとしています ちょっとまえまで まゆだった ありのあかちゃん きょうみると さなぎになっています ひとまわりも ふたまわりも おおきな おおきな はえ はたらきものの １ぴきは まえあしに かみつくので せいっぱいです いつものこばえ より おおきな はえが きました はたらきものの ちいさなあり のほか すうひきでたべています しっかりたべた ありが くちうつしで えさをあげてもいます じょうおうありの くちを はたらきありが ずっとなめています すあなに まゆが みえます じょうおうありが えさを たべています はたらきありの りりしい かおが みえます じょうおうありが たまごを うんでいます こばえを やっつけようとしています こばえは だいこうぶつです ふつか つづけて こばえを たべています ごはんを たべたあとは からだを きれいに しています みんなで えさを たべています"><a href="Posts/2609/うちのありんこ２０２１ねん４がつのまき.html">うちのありんこ ２０２１ねん４がつ のまき — arinkolabo</a><span class="path">(Posts/2609/うちのありんこ２０２１ねん４がつのまき.html)</span></li>
+        <li class="article-item" data-tags="ハチ目" data-content="うちのありんこ２０２１ねん５がつ のまき — arinkolabo うちのありんこ２０２１ねん５がつ のまき — arinkolabo ← ログ一覧に戻る #ハチ目 Camponotus quadrinotatus ついに せまいすを ありたちが でました！ そして ひっこしたさきは・・・ けーすの すみっこ でした。 あいかわらず せまい すに ひしめきあって くらしています ひさびさに こばえを あげると みんなで たべています ありたちが たべ こばえのはねがうごくたび きらきら ひかります まゆが いっぱい あります もうすぐ なかまが もっと ふえそうです すは いっぱいいっぱい です せっこうの すあなに ひっこす かもしれません みんなで うんかを たべています そのとき あぶらむしが とおりすぎました いつもの はたらきあり、 もう ちびくん となづけましょう ちびくんが あぶらむしに こうげき しています いつもの はたらきものの ありが うんかを たべています そのあと はたらきありと じょうおうありに くちうつし しています こうやって かぞくで えさを あたえあっています"><a href="Posts/2609/うちのありんこ２０２１ねん５がつ のまき .html">うちのありんこ２０２１ねん５がつ のまき — arinkolabo</a><span class="path">(Posts/2609/うちのありんこ２０２１ねん５がつ のまき .html)</span></li>
+        <li class="article-item" data-tags="ハチ目" data-content="うちのありんこ ２０２１ねん３がつ のまき — arinkolabo うちのありんこ ２０２１ねん３がつ のまき — arinkolabo ← ログ一覧に戻る うちのありんこ ２０２１ねん３がつ のまき ― arinkolabo #ハチ目 Camponotus quadrinotatus はたらきありが かえって きました おさとうを なめています"><a href="Posts/2609/うちのありんこ ２０２１ねん３がつ のまき .html">うちのありんこ ２０２１ねん３がつ のまき — arinkolabo</a><span class="path">(Posts/2609/うちのありんこ ２０２１ねん３がつ のまき .html)</span></li>
+    </ul>
+
+    <script>
+        let selectedTags = [];
+
+        function filterArticles() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let items = document.getElementsByClassName('article-item');
+            for (let i = 0; i < items.length; i++) {
+                let searchTarget = items[i].getAttribute('data-content').toLowerCase();
+                let tagsAttr = items[i].getAttribute('data-tags');
+                let articleTags = tagsAttr ? tagsAttr.split(',') : [];
+                
+                let matchesSearch = searchTarget.includes(input);
+                let matchesTags = selectedTags.length === 0 || selectedTags.every(t => articleTags.includes(t));
+
+                items[i].style.display = (matchesSearch && matchesTags) ? "" : "none";
+            }
+        }
+
+        function filterByTag(tagName) {
+            if (tagName === 'ALL') {
+                selectedTags = [];
+            } else {
+                let index = selectedTags.indexOf(tagName);
+                if (index > -1) {
+                    selectedTags.splice(index, 1);
+                } else {
+                    selectedTags.push(tagName);
+                }
+            }
+
+            let allBadge = document.getElementById('tag-all');
+            if (selectedTags.length === 0) {
+                allBadge.classList.add('active');
+            } else {
+                allBadge.classList.remove('active');
+            }
+
+            let badges = document.querySelectorAll('.tag-container .tag-badge:not(#tag-all)');
+            for (let b of badges) {
+                let t = b.getAttribute('data-tag');
+                if (selectedTags.includes(t)) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            }
+
+            filterArticles();
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tagParam = urlParams.get('tag');
+            if (tagParam) {
+                filterByTag(tagParam);
+            }
+        };
+    </script>
+    </div>
+</body>
+</html>
