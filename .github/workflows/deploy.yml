@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install beautifulsoup4
+          pip install beautifulsoup4 requests
 
       - name: Extract ZIP / Process HTML & Assets, update Posts, and generate clean index
         run: |
@@ -42,6 +42,7 @@ jobs:
           import shutil
           import glob
           import subprocess
+          import requests
           from datetime import datetime
           from bs4 import BeautifulSoup
 
@@ -85,8 +86,8 @@ jobs:
                   .content img:not(.bookmark-thumb) {{
                       max-width: 100%;
                       height: auto;
-                      max-height: 250px;
-                      object-fit: cover;
+                      max-height: 500px;
+                      object-fit: contain;
                       border-radius: 6px;
                   }}
                   .embed-container {{
@@ -286,6 +287,30 @@ jobs:
                       clean_href = hash_pattern.sub('', href).strip()
                       a_tag['href'] = clean_href
                       continue
+
+                  # Google Photos 埋め込み変換
+                  if 'photos.app.goo.gl' in href or 'photos.google.com' in href:
+                      try:
+                          res = requests.get(href, headers={'User-Agent': 'Mozilla/5.0'}, timeout=10)
+                          og_image_match = re.search(r'<meta\s+property=["\']og:image["\']\s+content=["\']([^"\'\s]+)["\']', res.text)
+                          if not og_image_match:
+                              og_image_match = re.search(r'<meta\s+content=["\']([^"\'\s]+)["\']\s+property=["\']og:image["\']', res.text)
+                          
+                          if og_image_match:
+                              direct_img_url = og_image_match.group(1)
+                              
+                              # aタグでラップしたimg要素の作成（クリックでGoogle Photoの元のページへ飛べる仕様）
+                              wrapper_a = soup.new_tag('a', href=href, target='_blank')
+                              img_tag = soup.new_tag('img', src=direct_img_url, alt='Google Photo', **{'class': 'gphoto-embed'})
+                              wrapper_a.append(img_tag)
+
+                              if parent and parent.name in ['figure', 'p'] and len(parent.get_text(strip=True)) == len(a_tag.get_text(strip=True)):
+                                  parent.replace_with(wrapper_a)
+                              else:
+                                  a_tag.replace_with(wrapper_a)
+                              continue
+                      except Exception as e:
+                          print(f"Failed to fetch Google Photo og:image for {href}: {e}")
 
                   yt_match = re.search(r'(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})', href)
                   if yt_match:
@@ -605,7 +630,7 @@ jobs:
           </head>
           <body>
               <div class="container">
-                  <h1>Ikim0nchi ログ一覧</h1>
+                  <h1>Arilab0nchi ログ一覧</h1>
                   <input type="text" id="searchInput" class="search-box" placeholder="🔍 記事のタイトルや本文をキーワード検索..." onkeyup="filterArticles()">
           """
 
